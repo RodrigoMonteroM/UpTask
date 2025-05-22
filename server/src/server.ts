@@ -1,4 +1,5 @@
-import * as express from 'express';
+// @ts-ignore
+import express from 'express';
 
 const app =  express();
 

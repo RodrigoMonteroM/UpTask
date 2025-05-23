@@ -1,58 +1,14 @@
 version: '3.8'
 
 services:
-  client:
-    build:
-      context: ./client
-      dockerfile: Dockerfile
-    container_name: uptask_client
-    ports:
-      - "80:80"
-    volumes:
-      - ./client:/app
-      - /app/node_modules
-    restart: unless-stopped
-    networks:
-      - uptask_network
-
   server:
     build:
-      context: ./server
+      context: server
       dockerfile: Dockerfile
-    container_name: uptask_server
     ports:
-      - "3001:3001"
+      - "3000:3000"
     volumes:
-      - ./server:/app
-      - /app/node_modules
+      - ./server:/usr/src/app
+      - /usr/src/app/node_modules
     environment:
       - NODE_ENV=development
-      - DATABASE_URL=mysql://dev:dev@docker_dev:3306/uptask_db
-    depends_on:
-      - uptask_mysql_db # Asegúrate de que el nombre coincida con el servicio de MySQL
-    restart: unless-stopped
-    networks:
-      - uptask_network
-
-  uptask_mysql_db:
-    image: mysql:8.0
-    container_name: uptask_mysql_db
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: root_psw
-      MYSQL_DATABASE: docker_dev
-      MYSQL_USER: dev
-      MYSQL_PASSWORD: dev
-    volumes:
-      - uptask_mysql_data:/var/lib/mysql
-    restart: unless-stopped
-    networks:
-      - uptask_network
-
-networks:
-  uptask_network:
-    driver: bridge
-
-volumes:
-  uptask_mysql_data: # Volumen para la persistencia de datos de MySQL

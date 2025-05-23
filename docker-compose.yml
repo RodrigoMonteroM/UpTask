@@ -17,7 +17,8 @@ services:
       - DATABASE_PASSWORD=dev
       - DATABASE_NAME=docker_dev
       - DATABASE_PORT=3306
-      - DATABASE_URL="mysql://root:rootpassword@db:3306/docker_dev"
+      - SHADOW_DATABASE_URL=mysql://root:rootpassword@db:3306/docker_dev_shadow 
+      - DATABASE_URL=mysql://dev:dev@db:3306/docker_dev 
       - DATABASE_ROOT_PASSWORD=rootpassword
     depends_on:
       - db
